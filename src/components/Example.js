@@ -1,11 +1,9 @@
 import React, { useReducer } from "react";
-import Example from "./components/Example";
-// import re from "re";
 
 const initialState = {
   name: {
     text: "",
-    error: "Name must be at least 2 characters",
+    error: "",
   },
   email: {
     text: "",
@@ -14,7 +12,8 @@ const initialState = {
 };
 
 function reducer(state, action) {
-  console.log("inside reducer \n", action);
+  console.log("inside reducer");
+  console.log(action);
   switch (action.type) {
     case "SET_NAME_TEXT":
       return {
@@ -33,7 +32,6 @@ function reducer(state, action) {
         },
       };
     case "SET_NAME_ERROR":
-      console.log("SET NAME ERR");
       return {
         ...state,
         name: {
@@ -46,30 +44,23 @@ function reducer(state, action) {
   }
 }
 
-// function errorReducer
-
-const App = () => {
+const Example = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
-  // console.log(state);
 
-  const handleNameChange = (e) => {
+  function handleNameChange(e) {
     const { name, value } = e.target;
-    if (value.length > 2) {
-      dispatch({
-        type: "SET_NAME_ERROR",
-        payload: "",
-      });
-    } else {
+    if (value.length < 2) {
       dispatch({
         type: "SET_NAME_ERROR",
         payload: "Name must be at least 2 characters",
       });
     }
+
     dispatch({
       type: "SET_NAME_TEXT",
       payload: value,
     });
-  };
+  }
 
   const handleEmailChange = (e) => {
     const { value } = e.target;
@@ -79,23 +70,14 @@ const App = () => {
     });
   };
 
-  function handleChange(e) {
-    const { name, value } = e.target;
-    dispatch({
-      type: name,
-      payload: value,
-    });
-  }
-
   return (
     <div>
-      <Example />
-      {/* {JSON.stringify(state)}
+      {JSON.stringify(state)}
       <div>
         <label>
           <span>Name:</span>{" "}
           <input
-            name="text"
+            name="name"
             value={state.name.text}
             onChange={handleNameChange}
           />
@@ -110,9 +92,9 @@ const App = () => {
             onChange={handleEmailChange}
           />
         </label>
-      </div> */}
+      </div>
     </div>
   );
 };
 
-export default App;
+export default Example;
